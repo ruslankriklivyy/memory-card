@@ -4,7 +4,7 @@ import joulupukkiIcon from "../assets/joulupukki.png";
 import pinguinIcon from "../assets/pinguin.png";
 import { CardItem } from "../types/CardItem";
 
-const DEFAULT_CARDS = [
+export const DEFAULT_CARDS = [
   {
     id: 1,
     name: "Oscar",

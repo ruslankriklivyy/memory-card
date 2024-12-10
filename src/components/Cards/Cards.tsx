@@ -1,4 +1,4 @@
-import { CARDS } from "../../constants/CARDS.ts";
+import { CARDS, DEFAULT_CARDS } from "../../constants/CARDS.ts";
 import { CardsItem } from "./CardsItem.tsx";
 import { useEffect, useMemo, useState } from "react";
 import { CardItem } from "../../types/CardItem";
@@ -26,7 +26,14 @@ export function Cards() {
   const onCloseWinModal = () => {
     fireworks?.stop();
     setIsShowWinModal(false);
-    setCardsData(CARDS);
+    setCardsData(
+      DEFAULT_CARDS.map((card) => ({
+        ...card,
+        order: Math.floor(Math.random() * DEFAULT_CARDS.length),
+        is_flipped: false,
+        is_correct: false,
+      })) as CardItem[],
+    );
     setClickedCount(1);
     setChosenCards([]);
     setFirstChosenCard(null);
