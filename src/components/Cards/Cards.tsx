@@ -1,6 +1,6 @@
 import { CARDS } from "../../constants/CARDS.ts";
 import { CardsItem } from "./CardsItem.tsx";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { CardItem } from "../../types/CardItem";
 import { Modal } from "../UI/Modal.tsx";
 import { createPortal } from "react-dom";
