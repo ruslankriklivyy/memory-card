@@ -122,7 +122,11 @@ export function Cards() {
   };
 
   const onClickCard = (card: CardItem) => {
-    if (card.is_correct || isWait) return;
+    const isExistCard =
+      !!chosenCards.find((elem) => elem.id === card.id) ||
+      firstChosenCard?.id === card?.id;
+
+    if (card.is_correct || isWait || isExistCard) return;
 
     if (audioRef.current) {
       audioRef.current.currentTime = 0;
