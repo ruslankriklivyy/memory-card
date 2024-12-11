@@ -18,6 +18,7 @@ export function CardsItem({ card, onClickCard }: CardsItemProps) {
       className={clsx({
         ["cards-item"]: true,
         ["cards-item--correct"]: card.is_correct,
+        ["cards-item--flipped"]: card.is_flipped && !card.is_correct,
       })}
       onClick={onClickCard}
     >

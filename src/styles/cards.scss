@@ -74,6 +74,14 @@
     transition: background-color, border 0.2s ease;
     border: 2px solid transparent;
 
+    &--flipped {
+      border-color: #4096ff;
+
+      &:hover {
+        border-color: #4096ff !important;
+      }
+    }
+
     &--correct {
       border-color: rgba(255, 222, 33, 1);
 
