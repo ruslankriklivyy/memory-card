@@ -1,6 +1,6 @@
 import { DEFAULT_CARDS_BY_COUNT } from "../../constants/CARDS.ts";
 import { CardsItem } from "./CardsItem.tsx";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { CardItem } from "../../types/CardItem";
 import { Modal } from "../UI/Modal.tsx";
 import { createPortal } from "react-dom";
@@ -21,6 +21,11 @@ export function Cards() {
   const [isWait, setIsWait] = useState<boolean>(false);
   const [isShowWinModal, setIsShowWinModal] = useState<boolean>(false);
   const [fireworks, setFireworks] = useState<Fireworks | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  if (!audioRef.current) {
+    audioRef.current = new Audio("/click.wav");
+  }
 
   const location = useLocation();
 
@@ -118,6 +123,14 @@ export function Cards() {
 
   const onClickCard = (card: CardItem) => {
     if (card.is_correct || isWait) return;
+
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0;
+      audioRef.current.volume = 0.2;
+      audioRef.current.play().catch((err) => {
+        console.error("Audio error", err);
+      });
+    }
 
     if (clickedCount === 1) {
       updateCardStatus(card, true);
