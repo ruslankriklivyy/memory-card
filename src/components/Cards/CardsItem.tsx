@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 
 import { CardItem } from "../../types/CardItem";
 import defaultIcon from "../../assets/default.png";
+import clsx from "clsx";
 
 interface CardsItemProps {
   card: CardItem;
@@ -14,7 +15,10 @@ export function CardsItem({ card, onClickCard }: CardsItemProps) {
       initial={{ rotateY: 0 }}
       animate={{ rotateY: card.is_flipped ? 180 : 0 }}
       transition={{ duration: 0.6 }}
-      className={"cards-item"}
+      className={clsx({
+        ["cards-item"]: true,
+        ["cards-item--correct"]: card.is_correct,
+      })}
       onClick={onClickCard}
     >
       <motion.div
