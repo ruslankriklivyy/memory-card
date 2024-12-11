@@ -163,7 +163,11 @@ export function Cards() {
   }, [maxCardsCount]);
 
   useEffect(() => {
-    if (location.pathname === "/game" && gameStatus !== GameStatus.ACTIVE) {
+    if (
+      location.pathname === "/game" &&
+      gameStatus !== GameStatus.ACTIVE &&
+      gameStatus !== GameStatus.WIN
+    ) {
       setGameStatus(GameStatus.ACTIVE);
     }
   }, [location, gameStatus]);

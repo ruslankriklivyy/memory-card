@@ -13,6 +13,8 @@ export function Timer() {
   useEffect(() => {
     let interval: number | null = null;
 
+    console.log("gameStatus", gameStatus);
+
     if (gameStatus === GameStatus.ACTIVE) {
       startTime.current = dayjs();
       setGameTime(0);
