@@ -172,7 +172,11 @@ export function Cards() {
   }, [isCorrectAnswer, fireworks]);
 
   useEffect(() => {
+    setGameResult(null);
     prepareCards();
+    setClickedCount(1);
+    setFirstChosenCard(null);
+    setChosenCards([]);
   }, [maxCardsCount]);
 
   useEffect(() => {
