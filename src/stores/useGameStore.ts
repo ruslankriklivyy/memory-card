@@ -28,9 +28,20 @@ export const useGamesStore = create<UseGamesStoreState & UseGamesStoreAction>(
     setGameResult: (gameResult) => set(() => ({ gameResult })),
     setGameStatus: (gameStatus) => set(() => ({ gameStatus })),
     setMaxCardsCount: (maxCardsCount) =>
-      set(() => ({
-        maxCardsCount,
-      })),
+      set((state) => {
+        if (state.maxCardsCount !== maxCardsCount) {
+          return {
+            maxCardsCount,
+            gameStatus: GameStatus.ACTIVE,
+            gameTime: 0,
+            gameResult: null,
+          };
+        }
+
+        return {
+          maxCardsCount,
+        };
+      }),
     setGameTime: (gameTime) => set(() => ({ gameTime })),
   }),
 );

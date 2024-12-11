@@ -5,7 +5,7 @@ import { GameStatus } from "../../types/GameStatus.ts";
 import { getFormattedTime } from "../../helpers/getFormattedTime.ts";
 
 export function Timer() {
-  const { gameTime, gameStatus, setGameTime } = useGamesStore();
+  const { gameTime, gameStatus, maxCardsCount, setGameTime } = useGamesStore();
   const startTime = useRef(dayjs());
 
   const formattedTime = useMemo(() => getFormattedTime(gameTime), [gameTime]);
@@ -29,7 +29,7 @@ export function Timer() {
         clearInterval(interval);
       }
     };
-  }, [gameStatus, setGameTime]);
+  }, [gameStatus, maxCardsCount, setGameTime]);
 
   return (
     <div className="timer">
