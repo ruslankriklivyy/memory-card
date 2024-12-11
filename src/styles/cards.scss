@@ -7,6 +7,19 @@
   z-index: 10;
   margin-top: 60px;
 
+  &-head {
+    width: 100%;
+    max-width: 830px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 400;
+  }
+
   &__win {
     display: flex;
     align-items: center;

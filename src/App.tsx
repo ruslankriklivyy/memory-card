@@ -1,24 +1,25 @@
 import "./App.css";
-import "../src/styles/cards.scss";
-import "../src/styles/modal.scss";
-import "../src/styles/timer.scss";
-import "../src/styles/start.scss";
+import "../src/styles/index.scss";
 import { Snowfall } from "react-snowfall";
-import { Start } from "./components/Start/Start.tsx";
-import { useGamesStore } from "./stores/useGameStore.ts";
-import { Step } from "./types/Step.ts";
-import { Cards } from "./components/Cards/Cards.tsx";
+import { BrowserRouter, Route, Routes } from "react-router";
+import { StartPage } from "./pages/StartPage.tsx";
+import { GamePage } from "./pages/GamePage.tsx";
+import { MainLayout } from "./layouts/MainLayout.tsx";
 
 function App() {
-  const { currentStep } = useGamesStore();
-
   return (
     <>
       <Snowfall style={{ zIndex: 5 }} />
 
-      {currentStep === Step.GAME && <Cards />}
+      <BrowserRouter>
+        <Routes>
+          <Route path={"/"} element={<MainLayout />}>
+            <Route index element={<StartPage />}></Route>
 
-      {currentStep === Step.START && <Start />}
+            <Route path={"game"} element={<GamePage />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }

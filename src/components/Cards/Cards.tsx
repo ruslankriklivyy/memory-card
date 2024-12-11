@@ -6,9 +6,10 @@ import { Modal } from "../UI/Modal.tsx";
 import { createPortal } from "react-dom";
 import { WinMessage } from "./WinMessage.tsx";
 import { Fireworks } from "fireworks-js";
-import { Timer } from "./Timer.tsx";
 import { useGamesStore } from "../../stores/useGameStore.ts";
 import { GameStatus } from "../../types/GameStatus.ts";
+import { CardsHead } from "./CardsHead.tsx";
+import { useLocation } from "react-router";
 
 const MAX_CLICKED_COUNT = 2;
 
@@ -21,8 +22,16 @@ export function Cards() {
   const [isShowWinModal, setIsShowWinModal] = useState<boolean>(false);
   const [fireworks, setFireworks] = useState<Fireworks | null>(null);
 
-  const { maxCardsCount, gameTime, setGameTime, setGameStatus, setGameResult } =
-    useGamesStore();
+  const location = useLocation();
+
+  const {
+    maxCardsCount,
+    gameTime,
+    gameStatus,
+    setGameTime,
+    setGameStatus,
+    setGameResult,
+  } = useGamesStore();
 
   const isCorrectAnswer = useMemo(
     () =>
@@ -153,9 +162,15 @@ export function Cards() {
     prepareCards();
   }, [maxCardsCount]);
 
+  useEffect(() => {
+    if (location.pathname === "/game" && gameStatus !== GameStatus.ACTIVE) {
+      setGameStatus(GameStatus.ACTIVE);
+    }
+  }, [location, gameStatus]);
+
   return (
     <>
-      <Timer />
+      <CardsHead />
 
       {isShowWinModal && <div className={"cards-fireworks"} />}
 

@@ -1,6 +1,5 @@
 import { create } from "zustand";
 
-import { Step } from "../types/Step.ts";
 import { DEFAULT_CARDS_COUNT } from "../constants/DEFAULT_CARDS_COUNT.ts";
 import { GameStatus } from "../types/GameStatus.ts";
 import { GameResult } from "../types/GameResult";
@@ -10,7 +9,6 @@ interface UseGamesStoreState {
   gameStatus: GameStatus;
   maxCardsCount: number;
   gameTime: number;
-  currentStep: Step;
 }
 
 interface UseGamesStoreAction {
@@ -18,7 +16,6 @@ interface UseGamesStoreAction {
   setGameStatus: (gameStatus: GameStatus) => void;
   setMaxCardsCount: (maxCardsCount: number) => void;
   setGameTime: (gameTime: number) => void;
-  setCurrentStep: (step: Step) => void;
 }
 
 export const useGamesStore = create<UseGamesStoreState & UseGamesStoreAction>(
@@ -27,7 +24,6 @@ export const useGamesStore = create<UseGamesStoreState & UseGamesStoreAction>(
     gameStatus: GameStatus.START,
     maxCardsCount: DEFAULT_CARDS_COUNT,
     gameTime: 0,
-    currentStep: Step.START,
 
     setGameResult: (gameResult) => set(() => ({ gameResult })),
     setGameStatus: (gameStatus) => set(() => ({ gameStatus })),
@@ -36,9 +32,5 @@ export const useGamesStore = create<UseGamesStoreState & UseGamesStoreAction>(
         maxCardsCount,
       })),
     setGameTime: (gameTime) => set(() => ({ gameTime })),
-    setCurrentStep: (currentStep: Step) =>
-      set(() => ({
-        currentStep,
-      })),
   }),
 );
