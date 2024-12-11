@@ -5,6 +5,7 @@
   align-items: center;
   gap: 10px;
   z-index: 10;
+  margin-top: 60px;
 
   &__win {
     display: flex;
@@ -16,6 +17,16 @@
     h2 {
       font-weight: 600;
       font-size: 36px;
+      padding: 0;
+      margin-bottom: 0;
+      line-height: 1.4;
+    }
+
+    p {
+      font-weight: 500;
+      font-size: 16px;
+      margin-top: 10px;
+      margin-bottom: 30px;
     }
 
     img {
@@ -44,12 +55,13 @@
     height: 200px;
     border-radius: 10px;
     cursor: pointer;
-    background: #f3f3f6;
+    background-color: rgba(243, 243, 246, 0.6);
     perspective: 1000px;
     transform-style: preserve-3d;
+    transition: background-color 0.2s ease;
 
     &:hover {
-      background: #e8e8ec;
+      background-color: rgba(243, 243, 246, 1);
     }
 
     img {

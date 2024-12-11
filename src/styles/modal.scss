@@ -24,16 +24,17 @@
 
     &__btn {
       width: 100%;
+      height: 50px;
       font-size: 22px;
       border: none;
-      background: none;
+      background: rgba(255, 222, 33, 0.6);
       cursor: pointer;
       transition: all .2s ease;
       border-radius: 12px;
       outline: none !important;
 
       &:hover {
-        background: #ffde21;
+        background: rgba(255, 222, 33, 1) !important;
       }
     }
   }

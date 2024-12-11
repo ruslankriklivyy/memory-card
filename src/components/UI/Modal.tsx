@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Button } from "antd";
 
 interface ModalProps {
   children: ReactNode;
@@ -28,9 +29,9 @@ export function Modal({ closeModal, children }: ModalProps) {
         <div className={"modal-content"}>{children}</div>
 
         <div className={"modal-actions"}>
-          <button className={"modal-actions__btn"} onClick={() => closeModal()}>
+          <Button className={"modal-actions__btn"} onClick={() => closeModal()}>
             Ok
-          </button>
+          </Button>
         </div>
       </motion.div>
     </AnimatePresence>

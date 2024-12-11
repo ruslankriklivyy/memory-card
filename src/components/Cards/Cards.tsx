@@ -1,39 +1,59 @@
-import { CARDS, DEFAULT_CARDS } from "../../constants/CARDS.ts";
+import { DEFAULT_CARDS_BY_COUNT } from "../../constants/CARDS.ts";
 import { CardsItem } from "./CardsItem.tsx";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { CardItem } from "../../types/CardItem";
 import { Modal } from "../UI/Modal.tsx";
 import { createPortal } from "react-dom";
 import { WinMessage } from "./WinMessage.tsx";
 import { Fireworks } from "fireworks-js";
+import { Timer } from "./Timer.tsx";
+import { useGamesStore } from "../../stores/useGameStore.ts";
+import { GameStatus } from "../../types/GameStatus.ts";
 
 const MAX_CLICKED_COUNT = 2;
 
 export function Cards() {
-  const [cardsData, setCardsData] = useState<CardItem[]>(CARDS);
+  const [cardsData, setCardsData] = useState<CardItem[]>([]);
   const [firstChosenCard, setFirstChosenCard] = useState<CardItem | null>(null);
   const [chosenCards, setChosenCards] = useState<CardItem[]>([]);
   const [clickedCount, setClickedCount] = useState<number>(1);
-  const [wait, setWait] = useState<boolean>(false);
+  const [isWait, setIsWait] = useState<boolean>(false);
   const [isShowWinModal, setIsShowWinModal] = useState<boolean>(false);
   const [fireworks, setFireworks] = useState<Fireworks | null>(null);
 
+  const { maxCardsCount, gameTime, setGameTime, setGameStatus, setGameResult } =
+    useGamesStore();
+
   const isCorrectAnswer = useMemo(
-    () => cardsData.every((card) => card.is_correct),
+    () =>
+      cardsData?.length ? cardsData.every((card) => card.is_correct) : false,
     [cardsData],
   );
 
-  const onCloseWinModal = () => {
-    fireworks?.stop();
-    setIsShowWinModal(false);
+  const prepareCards = useCallback(() => {
+    const initCards = DEFAULT_CARDS_BY_COUNT[maxCardsCount];
+
+    if (!initCards) return;
+
     setCardsData(
-      DEFAULT_CARDS.map((card) => ({
+      initCards.map((card) => ({
         ...card,
-        order: Math.floor(Math.random() * DEFAULT_CARDS.length),
+        order: Math.floor(Math.random() * maxCardsCount),
         is_flipped: false,
         is_correct: false,
       })) as CardItem[],
     );
+  }, [maxCardsCount]);
+
+  const onCloseWinModal = () => {
+    fireworks?.stop();
+    setIsShowWinModal(false);
+    setGameStatus(GameStatus.ACTIVE);
+    setGameResult(null);
+    setGameTime(0);
+
+    prepareCards();
+
     setClickedCount(1);
     setChosenCards([]);
     setFirstChosenCard(null);
@@ -69,7 +89,7 @@ export function Cards() {
     });
 
     if (!isAllCorrect) {
-      setWait(true);
+      setIsWait(true);
 
       setTimeout(() => {
         const updatedCardsData = newCardsData.map((card) => {
@@ -80,7 +100,7 @@ export function Cards() {
         });
 
         setCardsData(updatedCardsData);
-        setWait(false);
+        setIsWait(false);
       }, 1000);
     } else {
       setCardsData(newCardsData);
@@ -88,7 +108,7 @@ export function Cards() {
   };
 
   const onClickCard = (card: CardItem) => {
-    if (card.is_correct || wait) return;
+    if (card.is_correct || isWait) return;
 
     if (clickedCount === 1) {
       updateCardStatus(card, true);
@@ -119,12 +139,24 @@ export function Cards() {
   useEffect(() => {
     if (isCorrectAnswer) {
       fireworks?.start();
+
+      setGameResult({
+        status: GameStatus.WIN,
+        timeSpent: gameTime,
+      });
+      setGameStatus(GameStatus.WIN);
       setIsShowWinModal(true);
     }
   }, [isCorrectAnswer, fireworks]);
 
+  useEffect(() => {
+    prepareCards();
+  }, [maxCardsCount]);
+
   return (
     <>
+      <Timer />
+
       {isShowWinModal && <div className={"cards-fireworks"} />}
 
       <div className={"cards"}>

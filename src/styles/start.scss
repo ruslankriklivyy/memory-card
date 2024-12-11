@@ -1,0 +1,26 @@
+.start {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+
+  &-title {
+    font-weight: 600;
+    font-size: 46px;
+  }
+
+  &-select__count {
+    margin-bottom: 15px;
+  }
+
+  &-btn {
+    width: 200px !important;
+    height: 40px;
+
+    * {
+      color: #fff !important;
+      font-weight: 500;
+    }
+  }
+}
